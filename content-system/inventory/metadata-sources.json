@@ -1,0 +1,10 @@
+{
+  "generatedAt": "2026-09-01T12:25:19.773Z",
+  "sources": [
+    "app/[locale]/layout.tsx → meta.*",
+    "messages → pages.*.metaTitle/metaDescription",
+    "app/[locale]/opengraph-image.tsx → hero lines",
+    "work/[slug] → project summary",
+    "blog/[slug] → article title/excerpt"
+  ]
+}

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CSS Design System — METEK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Space Grotesk", Inter, system-ui, sans-serif;
+    background:
+      radial-gradient(ellipse 70% 50% at 100% 0%, rgba(200,232,74,.18), transparent 50%),
+      radial-gradient(ellipse 50% 40% at 0% 100%, rgba(22,22,22,.06), transparent 45%),
+      #f4f2ec;
+    color: #161616; min-height: 100vh;
+  }
+  .wrap { max-width: 1220px; margin: 0 auto; padding: 26px 28px 36px; }
+  .top {
+    display: flex; justify-content: space-between; align-items: end;
+    margin-bottom: 22px; gap: 16px;
+  }
+  .eyebrow {
+    font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+    color: #8a8680; margin-bottom: 8px;
+  }
+  .top h1 { font-size: 34px; letter-spacing: -0.05em; font-weight: 700; line-height: 1; }
+  .top p { color: #666; font-size: 14px; margin-top: 8px; max-width: 380px; line-height: 1.45; }
+  .chip {
+    background: #161616; color: #c8e84a; font-size: 11px; font-weight: 700;
+    padding: 10px 14px; border-radius: 999px; letter-spacing: .04em;
+    box-shadow: 0 12px 28px -16px rgba(0,0,0,.55);
+  }
+  .grid {
+    display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 14px;
+  }
+  .card {
+    background: rgba(255,255,255,.82); backdrop-filter: blur(8px);
+    border: 1px solid rgba(0,0,0,.07); border-radius: 22px;
+    padding: 18px; min-height: 230px;
+    box-shadow: 0 20px 40px -28px rgba(0,0,0,.25);
+  }
+  .card h2 {
+    font-size: 10px; text-transform: uppercase; letter-spacing: .16em;
+    color: #8a8680; margin-bottom: 14px; font-weight: 700;
+  }
+  .swatches { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .swatch {
+    height: 78px; border-radius: 16px; position: relative; overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
+  }
+  .swatch span {
+    position: absolute; left: 10px; bottom: 10px;
+    font-size: 10px; font-weight: 700; letter-spacing: .02em;
+    background: rgba(255,255,255,.9); padding: 3px 8px; border-radius: 999px;
+  }
+  .swatch.dark span { background: rgba(0,0,0,.55); color: #fff; }
+  .type .xl { font-size: 40px; font-weight: 700; letter-spacing: -0.055em; line-height: .95; }
+  .type .lg { font-size: 20px; font-weight: 650; margin-top: 12px; letter-spacing: -.03em; }
+  .type .md { font-size: 13px; color: #666; margin-top: 10px; line-height: 1.5; }
+  .type .scale {
+    margin-top: 16px; display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .type .scale i {
+    font-style: normal; font-size: 10px; font-weight: 700;
+    padding: 4px 8px; border-radius: 999px; background: #ebe7df; color: #555;
+  }
+  .btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btns button {
+    border: 0; border-radius: 999px; padding: 11px 15px; font-weight: 700; font-size: 12px;
+    font-family: inherit; cursor: default;
+  }
+  .primary { background: #161616; color: #fff; }
+  .accent { background: #c8e84a; color: #161616; box-shadow: 0 8px 18px -10px rgba(200,232,74,.9); }
+  .ghost { background: transparent; border: 1px solid #161616 !important; }
+  .radii {
+    margin-top: 18px; display: flex; gap: 8px; align-items: end;
+  }
+  .radii span {
+    width: 36px; height: 36px; background: #161616;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+  }
+  .radii span:nth-child(1) { border-radius: 4px; }
+  .radii span:nth-child(2) { border-radius: 10px; }
+  .radii span:nth-child(3) { border-radius: 16px; }
+  .radii span:nth-child(4) { border-radius: 999px; width: 36px; }
+
+  .tokens {
+    margin-top: 14px; display: grid; grid-template-columns: 1.35fr 1fr; gap: 14px;
+  }
+  .code {
+    background: #161616; color: #d6d3d1; border-radius: 22px; padding: 20px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px;
+    line-height: 1.65; min-height: 240px;
+    box-shadow: 0 24px 48px -28px rgba(0,0,0,.55);
+  }
+  .code .c { color: #c8e84a; }
+  .code .k { color: #93c5fd; }
+  .code .cm { color: #78716c; }
+  .preview {
+    background: #fff; border: 1px solid rgba(0,0,0,.07); border-radius: 22px;
+    padding: 16px; display: flex; flex-direction: column; gap: 12px;
+    box-shadow: 0 20px 40px -28px rgba(0,0,0,.25);
+  }
+  .preview .hero {
+    background:
+      radial-gradient(ellipse 80% 60% at 90% 10%, rgba(200,232,74,.25), transparent 50%),
+      linear-gradient(145deg, #161616, #2a2a2a);
+    color: #fff; border-radius: 18px; padding: 22px; min-height: 168px;
+    position: relative; overflow: hidden;
+  }
+  .preview .hero::after {
+    content: "M."; position: absolute; right: 14px; bottom: -8px;
+    font-size: 72px; font-weight: 700; letter-spacing: -.06em; opacity: .12;
+  }
+  .preview .hero b { font-size: 24px; letter-spacing: -0.04em; display: block; }
+  .preview .hero p { color: #a8a29e; font-size: 12.5px; margin-top: 8px; max-width: 230px; line-height: 1.45; }
+  .preview .row { display: flex; gap: 8px; margin-top: 16px; }
+  .preview .meta {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  .preview .meta div {
+    background: #f4f2ec; border-radius: 14px; padding: 12px;
+  }
+  .preview .meta span {
+    display: block; font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
+    color: #8a8680; font-weight: 700; margin-bottom: 4px;
+  }
+  .preview .meta b { font-size: 14px; letter-spacing: -.02em; }
+
+  .m-status { display: none; }
+  @media (max-width: 500px) {
+    .m-status {
+      display: flex; justify-content: space-between; align-items: center;
+      height: 44px; padding: 12px 18px 0; font-size: 14px; font-weight: 600;
+      background: #efece4;
+    }
+    .wrap { padding: 12px 14px 20px; }
+    .grid, .tokens { grid-template-columns: 1fr; }
+    .top { flex-direction: column; align-items: start; gap: 10px; }
+    .top h1 { font-size: 28px; }
+    .type .xl { font-size: 32px; }
+    .tokens .code { min-height: auto; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+  <div class="m-status">
+    <span>09:46</span>
+    <span style="opacity:.85;font-size:12px">■■■  5G  🔋</span>
+  </div>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <p class="eyebrow">METEK Design System</p>
+        <h1>Token’dan arayüze.</h1>
+        <p>Renk, tipografi, radius ve bileşenler — web ile panel aynı dilde ölçeklenir.</p>
+      </div>
+      <span class="chip">UI Kit · v2.4</span>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h2>Color tokens</h2>
+        <div class="swatches">
+          <div class="swatch dark" style="background:#161616"><span>ink #161616</span></div>
+          <div class="swatch" style="background:#c8e84a"><span>lime #c8e84a</span></div>
+          <div class="swatch" style="background:#f4f2ec"><span>paper</span></div>
+          <div class="swatch" style="background:#dcd8d0"><span>stone</span></div>
+        </div>
+      </div>
+      <div class="card type">
+        <h2>Typography</h2>
+        <div class="xl">Display</div>
+        <div class="lg">Heading / 20</div>
+        <div class="md">Space Grotesk — ürün, docs ve pazarlama yüzeyi için tek aile.</div>
+        <div class="scale"><i>400</i><i>500</i><i>600</i><i>700</i></div>
+      </div>
+      <div class="card">
+        <h2>Components</h2>
+        <div class="btns">
+          <button class="primary">Primary</button>
+          <button class="accent">Accent</button>
+          <button class="ghost">Ghost</button>
+        </div>
+        <h2 style="margin-top:18px">Radius scale</h2>
+        <div class="radii">
+          <span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+    <div class="tokens">
+      <pre class="code"><span class="cm">/* tek kaynak — marka güncellemesi buradan yayılır */</span>
+<span class="k">:root</span> {
+  <span class="c">--color-ink</span>: #161616;
+  <span class="c">--color-lime</span>: #c8e84a;
+  <span class="c">--color-paper</span>: #f4f2ec;
+  <span class="c">--radius-pill</span>: 999px;
+  <span class="c">--space-4</span>: 1rem;
+  <span class="c">--font-display</span>: 2.5rem;
+}
+
+<span class="k">.btn-primary</span> {
+  background: var(--color-ink);
+  border-radius: var(--radius-pill);
+}</pre>
+      <div class="preview">
+        <div class="hero">
+          <b>Özgün arayüz dili</b>
+          <p>Token’larla tutarlı web ve panel — stil dağılmaz, hız artar.</p>
+          <div class="row">
+            <button class="accent">Keşfet</button>
+            <button class="ghost" style="color:#fff;border-color:rgba(255,255,255,.45)!important">Docs</button>
+          </div>
+        </div>
+        <div class="meta">
+          <div><span>Spacing</span><b>4 → 32</b></div>
+          <div><span>Surfaces</span><b>Web · Panel</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

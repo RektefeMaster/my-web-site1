@@ -1,0 +1,152 @@
+{
+  "skipped": {
+    "id": "wcc",
+    "reason": "featured complete (>50KB each)",
+    "files": [
+      "01-hero.jpg",
+      "02-kitchen.jpg",
+      "03-projects.jpg",
+      "04-brands.jpg"
+    ]
+  },
+  "captured": [
+    {
+      "id": "aydnnacar",
+      "url": "https://ayd-nnacar.vercel.app/koleksiyonlar",
+      "files": [
+        {
+          "file": "01-hero.jpg",
+          "bytes": 889511,
+          "scrollY": 0
+        },
+        {
+          "file": "02-tum-koleksiyonlar.jpg",
+          "bytes": 885625,
+          "scrollY": 904
+        },
+        {
+          "file": "03-salon.jpg",
+          "bytes": 892271,
+          "scrollY": 1416
+        },
+        {
+          "file": "04-yatak.jpg",
+          "bytes": 754768,
+          "scrollY": 1920
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "wuffbutik",
+      "url": "https://wuffbutik.vercel.app/",
+      "files": [
+        {
+          "file": "01-hero.jpg",
+          "bytes": 406004,
+          "scrollY": 0
+        },
+        {
+          "file": "02-magazadan-sectiklerimiz.jpg",
+          "bytes": 615394,
+          "scrollY": 1104
+        },
+        {
+          "file": "03-yak-ndan-bak.jpg",
+          "bytes": 366363,
+          "scrollY": 5144
+        },
+        {
+          "file": "04-gunluk.jpg",
+          "bytes": 381708,
+          "scrollY": 5720
+        },
+        {
+          "file": "05-spor.jpg",
+          "bytes": 298107,
+          "scrollY": 6192
+        },
+        {
+          "file": "06-tesettur.jpg",
+          "bytes": 438775,
+          "scrollY": 6680
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "altitude-residence",
+      "url": "https://altitude-residence.vercel.app/",
+      "files": [
+        {
+          "file": "01-hero.jpg",
+          "bytes": 633837,
+          "scrollY": 0
+        },
+        {
+          "file": "02-a-residence-composed-around-you.jpg",
+          "bytes": 512640,
+          "scrollY": 904
+        },
+        {
+          "file": "03-the-city-at-your-feet.jpg",
+          "bytes": 263844,
+          "scrollY": 1800
+        },
+        {
+          "file": "04-wellness-club.jpg",
+          "bytes": 253081,
+          "scrollY": 2344
+        },
+        {
+          "file": "05-hours-that-belong-to-you.jpg",
+          "bytes": 354523,
+          "scrollY": 3032
+        },
+        {
+          "file": "06-a-club-that-keeps-your-rhythm.jpg",
+          "bytes": 308661,
+          "scrollY": 6632
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "casa-aurelia",
+      "url": "https://casa-aurelia-jet.vercel.app/",
+      "files": [
+        {
+          "file": "01-hero.jpg",
+          "bytes": 685767,
+          "scrollY": 0
+        },
+        {
+          "file": "02-section-1.jpg",
+          "bytes": 498083,
+          "scrollY": 896
+        },
+        {
+          "file": "03-casa-aurelia-was-born-in-rome-set-within.jpg",
+          "bytes": 700003,
+          "scrollY": 1600
+        },
+        {
+          "file": "04-at-casa-aurelia-every-room-preserves-ori.jpg",
+          "bytes": 510992,
+          "scrollY": 2520
+        },
+        {
+          "file": "05-gastronomic-experience.jpg",
+          "bytes": 253220,
+          "scrollY": 3760
+        },
+        {
+          "file": "06-sala-della-musica.jpg",
+          "bytes": 628105,
+          "scrollY": 4680
+        }
+      ],
+      "error": null
+    }
+  ]
+}

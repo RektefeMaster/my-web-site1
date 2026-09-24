@@ -1,0 +1,34 @@
+{
+  "generatedAt": "2026-09-01T12:25:19.772Z",
+  "count": 22,
+  "slugs": [
+    "chatgpt-gemini-local-service",
+    "hotel-website-design",
+    "manufacturing-company-website",
+    "local-seo-for-service-businesses",
+    "schema-markup-for-business-websites",
+    "wordpress-vs-custom-website",
+    "b2b-website-quote-requests",
+    "how-to-choose-web-design-agency",
+    "multilingual-website-seo",
+    "custom-admin-panel-vs-crm",
+    "business-website-checklist",
+    "website-redesign-keep-seo",
+    "custom-website-vs-template",
+    "what-is-seo",
+    "website-pricing-why-cheap-costs-more",
+    "whatsapp-chatbot-for-business",
+    "technical-seo-checklist-business-website",
+    "identity-at-first-glance",
+    "system-not-logo",
+    "editorial-web-as-sales",
+    "quiet-luxury-online",
+    "brief-that-works"
+  ],
+  "sources": [
+    "data/blog-content/en.ts",
+    "data/blog-content/tr.ts",
+    "data/blog-content/es.ts",
+    "data/blog-content/de.ts"
+  ]
+}

@@ -1,0 +1,202 @@
+/*
+  Katman sırasını burada sabitliyoruz. Sebep: bu dosya Next tarafından ayrı
+  bir stylesheet olarak, globals.css'ten ÖNCE yüklenebiliyor. İlk görülen
+  @layer bildirimi sırayı belirlediği için, sıra sabitlenmezse `components`
+  en düşük önceliğe düşüyor ve Tailwind preflight'ının `a { color: inherit }`
+  kuralı `.specular-button`'ın rengini eziyordu (accent CTA'da açık gri metin,
+  1.2:1). Bildirim idempotent — her CSS girişinde aynısı durmalı.
+*/
+@layer theme, base, components, utilities;
+@import "tailwindcss";
+@import "./craft.css" layer(components);
+
+/*
+  ── Palet: Carbon · Mist · Petrol ──
+
+  Üçlü: mavi-siyah karbon (void) + soğuk sis (paper) + petrol vurgu.
+  Cam/krom diline bağlanır; lime neon, cyanotype gök mavisi ve bakır yok.
+  Mineral teal = stüdyo özgünlüğü (SaaS mavi / AI terracotta değil).
+
+  Light: sisli stüdyo gündüzü (AI cream #f4f1e9 değil).
+  Dark: derin karbon gece; accent parlak petrol.
+  Petrol açık zeminde METİN zayıf → `text-accent-ink` (koyu petrol).
+  Dolu butonda `on-accent` buz beyazı.
+*/
+
+/* Light — sis / porcelain mist */
+:root {
+  --background: #e5e8eb;
+  --foreground: #10141a;
+  --accent: #0c6b66;
+  --on-accent: #f2fffe;
+  /*
+    Petrol açık zeminde metin olarak zayıf. Metin için koyu petrol.
+    Yalnızca TEMA-TAKİPLİ yüzeylerde; `bg-band` gibi koyu bantlarda
+    `text-accent` doğru olan.
+  */
+  --accent-ink: #085450;
+  --ink: #10141a;
+  --ink-fg: #eef1f4;
+  --paper: #eef1f4;
+  --stone: #cfd5dc;
+  --surface: #f6f8fa;
+  --mute: rgba(16, 20, 26, 0.58);
+  --band: #10141a;
+  --band-fg: #eef1f4;
+  --chrome: #7e8793;
+  --chrome-edge: rgba(16, 20, 26, 0.14);
+  --chrome-shine: rgba(255, 255, 255, 0.55);
+  --glass: rgba(238, 241, 244, 0.62);
+  --glass-strong: rgba(238, 241, 244, 0.94);
+  --glass-border: rgba(16, 20, 26, 0.1);
+  --glass-border-scrolled: rgba(16, 20, 26, 0.14);
+  --hairline: rgba(16, 20, 26, 0.12);
+  --grid-line: rgba(16, 20, 26, 0.04);
+  --project-stage-gradient: linear-gradient(
+    165deg,
+    #e8ecf0 0%,
+    #d9e0e6 48%,
+    #c8d1da 100%
+  );
+  --page-hero-wash:
+    radial-gradient(
+      ellipse 80% 60% at 10% -10%,
+      rgba(12, 107, 102, 0.14),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 90% 0%,
+      rgba(16, 20, 26, 0.05),
+      transparent 50%
+    );
+  --process-head-ring: 0 0 0 3px rgba(16, 20, 26, 0.9),
+    0 0 14px rgba(12, 107, 102, 0.45);
+  /* Aşağıdaki responsive ölçekle birlikte oku — Navbar hydrate olunca
+     attachNavOffsetSync gerçek px değerini inline yazar. */
+  --nav-offset: calc(119px + var(--safe-top));
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --theme-ease: color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Dark — karbon gece */
+.dark {
+  --background: #0a0d11;
+  --foreground: #eef1f4;
+  --accent: #3dcdc4;
+  --on-accent: #0a0d11;
+  --accent-ink: #3dcdc4;
+  --ink: #eef1f4;
+  --ink-fg: #0a0d11;
+  --paper: #13181f;
+  --stone: #222a34;
+  --surface: #181e27;
+  --mute: rgba(238, 241, 244, 0.58);
+  --band: #06080b;
+  --band-fg: #eef1f4;
+  --chrome: #66707c;
+  --chrome-edge: rgba(238, 241, 244, 0.12);
+  --chrome-shine: rgba(255, 255, 255, 0.12);
+  --glass: rgba(19, 24, 31, 0.78);
+  --glass-strong: rgba(6, 8, 11, 0.97);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-scrolled: rgba(255, 255, 255, 0.12);
+  --hairline: rgba(238, 241, 244, 0.12);
+  --grid-line: rgba(61, 205, 196, 0.05);
+  --project-stage-gradient: linear-gradient(
+    165deg,
+    #222a34 0%,
+    #181e27 48%,
+    #10141a 100%
+  );
+  --page-hero-wash:
+    radial-gradient(
+      ellipse 80% 60% at 10% -10%,
+      rgba(61, 205, 196, 0.14),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 90% 0%,
+      rgba(238, 241, 244, 0.04),
+      transparent 50%
+    );
+  --process-head-ring: 0 0 0 3px rgba(6, 8, 11, 0.95),
+    0 0 16px rgba(61, 205, 196, 0.4);
+}
+
+/*
+  --nav-offset: sabit header'ın gerçek yüksekliği. İçerik üst boşluğu ve
+  scroll-padding bundan besleniyor; hydrate'ten sonraki JS ölçümüyle CSS
+  fallback'i uyuşmazsa tüm sayfa zıplıyordu (/work'te CLS 0.106).
+
+  Ölçülen gerçek değerler (locale'den bağımsız, tüm dillerde aynı):
+    <640: 119px · 640–767: 119px · 768–1023: 131px · >=1024: 78px
+  Katmansız tutuluyor: `:root` temel tanımı da katmansız, aksi halde
+  utility katmanı bunları ezerdi.
+*/
+@media (min-width: 640px) {
+  :root {
+    --nav-offset: calc(119px + var(--safe-top));
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --nav-offset: calc(131px + var(--safe-top));
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --nav-offset: calc(78px + var(--safe-top));
+  }
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-on-accent: var(--on-accent);
+  --color-ink: var(--ink);
+  --color-ink-fg: var(--ink-fg);
+  --color-paper: var(--paper);
+  --color-stone: var(--stone);
+  --color-surface: var(--surface);
+  --color-mute: var(--mute);
+  --color-band: var(--band);
+  --color-band-fg: var(--band-fg);
+  --color-hairline: var(--hairline);
+  --color-chrome: var(--chrome);
+  --font-sans: var(--font-grotesk), system-ui, sans-serif;
+  --font-display: var(--font-goks), var(--font-grotesk), system-ui, sans-serif;
+  --font-subtitle: var(--font-vireon), var(--font-grotesk), system-ui, sans-serif;
+}
+
+/*
+  Özel tipografi — yalnızca sınıf ile:
+  .font-display  → Goks (büyük başlık, örn. PageHero)
+  .font-subtitle → Vireon (alt yazı / blurb)
+
+  Katmansız: Goks'un bold kesimi yok; `font-bold` utility'si sahte ağırlık
+  sentezlemesin diye bu kuralların utility katmanını geçmesi gerekiyor.
+*/
+.font-display {
+  font-family: var(--font-goks), var(--font-grotesk), system-ui, sans-serif;
+  font-weight: 400;
+  font-synthesis: none;
+}
+
+.font-display.font-bold {
+  font-weight: 400;
+}
+
+.font-subtitle {
+  font-family: var(--font-vireon), var(--font-grotesk), system-ui, sans-serif;
+  font-synthesis: none;
+}

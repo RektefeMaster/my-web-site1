@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Instagram DM Bot — METEK</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #050505; color: #f5f5f5; min-height: 100vh;
+  }
+  .shell {
+    display: grid; grid-template-columns: 320px 1fr 268px;
+    min-height: 100vh;
+  }
+  .inbox {
+    border-right: 1px solid #1c1c1c; background: #0a0a0a;
+    display: flex; flex-direction: column;
+  }
+  .head {
+    height: 64px; padding: 0 18px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid #1c1c1c;
+  }
+  .head h1 { font-size: 16px; font-weight: 700; letter-spacing: -.02em; }
+  .badge {
+    font-size: 9px; font-weight: 800; letter-spacing: .1em;
+    text-transform: uppercase; color: #fff;
+    background: linear-gradient(90deg, #f58529, #dd2a7b, #8134af);
+    padding: 6px 10px; border-radius: 999px;
+    box-shadow: 0 8px 20px -10px rgba(221,42,123,.8);
+  }
+  .thread {
+    display: flex; gap: 12px; padding: 13px 16px; align-items: center;
+    border-bottom: 1px solid #121212;
+  }
+  .thread.active {
+    background: linear-gradient(90deg, #161016, #0f0f0f);
+    border-left: 2px solid #dd2a7b;
+  }
+  .av {
+    width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, #f58529, #dd2a7b 45%, #8134af);
+    padding: 2px;
+  }
+  .av i {
+    display: block; width: 100%; height: 100%; border-radius: 50%;
+    border: 2px solid #0a0a0a;
+  }
+  .thread b { font-size: 14px; display: block; }
+  .thread p {
+    font-size: 12.5px; color: #a8a8a8; margin-top: 2px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;
+  }
+  .tag-mini {
+    display: inline-block; margin-top: 4px;
+    font-size: 9px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 999px;
+  }
+  .tag-hot { background: #dd2a7b33; color: #ff6bb5; }
+  .tag-ok { background: #22c55e22; color: #4ade80; }
+  .stage { display: flex; flex-direction: column; min-height: 100vh; background: #000; }
+  .bar {
+    height: 64px; border-bottom: 1px solid #1c1c1c;
+    display: flex; align-items: center; gap: 12px; padding: 0 20px;
+    background: #0a0a0a;
+  }
+  .bar .av { width: 32px; height: 32px; }
+  .bar b { font-size: 14px; }
+  .bar span { font-size: 12px; color: #a8a8a8; display: block; }
+  .live {
+    margin-left: auto;
+    font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+    color: #4ade80; background: #4ade8018; border: 1px solid #4ade8044;
+    padding: 6px 10px; border-radius: 999px;
+  }
+  .messages {
+    flex: 1; padding: 28px 40px; display: flex; flex-direction: column; gap: 10px;
+    justify-content: flex-end;
+    background:
+      radial-gradient(ellipse 60% 40% at 80% 0%, rgba(221,42,123,.12), transparent 50%),
+      radial-gradient(ellipse 50% 35% at 10% 100%, rgba(129,52,175,.1), transparent 50%),
+      #000;
+  }
+  .bubble {
+    max-width: 420px; padding: 12px 15px; border-radius: 22px;
+    font-size: 14px; line-height: 1.45;
+  }
+  .in { background: #1a1a1a; align-self: flex-start; border: 1px solid #262626; }
+  .out {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #833ab4, #fd1d1d 55%, #fcb045);
+    box-shadow: 0 10px 28px -14px rgba(253,29,29,.65);
+  }
+  .card-msg {
+    align-self: flex-end; max-width: 280px;
+    background: #121212; border: 1px solid #2a2a2a; border-radius: 18px; overflow: hidden;
+  }
+  .card-msg .thumb {
+    height: 110px;
+    background:
+      linear-gradient(135deg, rgba(0,0,0,.2), rgba(0,0,0,.55)),
+      linear-gradient(120deg, #1c1917, #292524 40%, #44403c);
+    display: grid; place-items: end start; padding: 12px;
+  }
+  .card-msg .thumb b { font-size: 15px; letter-spacing: -.02em; }
+  .card-msg .body { padding: 12px 14px; }
+  .card-msg .body p { font-size: 12px; color: #a8a8a8; line-height: 1.4; }
+  .card-msg .body em {
+    display: inline-block; margin-top: 8px; font-style: normal;
+    font-size: 11px; font-weight: 800; color: #fcb045;
+  }
+  .quick {
+    display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 4px;
+    align-self: flex-end; max-width: 420px; justify-content: flex-end;
+  }
+  .quick span {
+    border: 1px solid #3a3a3a; border-radius: 999px; padding: 8px 13px;
+    font-size: 12px; color: #e8e8e8; background: #121212;
+  }
+  .composer {
+    border-top: 1px solid #1c1c1c; padding: 12px 16px 16px;
+    display: flex; gap: 10px; align-items: center; background: #0a0a0a;
+  }
+  .composer input {
+    flex: 1; background: transparent; border: 1px solid #2e2e2e;
+    border-radius: 999px; padding: 12px 16px; color: #fff; font-size: 14px; outline: none;
+  }
+  .composer button {
+    border: 0; background: transparent; color: #0095f6;
+    font-weight: 700; font-size: 14px;
+  }
+
+  .panel {
+    border-left: 1px solid #1c1c1c; background: #0a0a0a;
+    padding: 18px 16px; display: flex; flex-direction: column; gap: 14px;
+  }
+  .panel h3 {
+    font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+    color: #777; font-weight: 800;
+  }
+  .intent {
+    border-radius: 16px; padding: 14px;
+    background: linear-gradient(160deg, #1a1018, #100c12);
+    border: 1px solid #dd2a7b44;
+  }
+  .intent b {
+    display: block; font-size: 18px; letter-spacing: -.02em;
+    background: linear-gradient(90deg, #f58529, #dd2a7b, #a855f7);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .intent p { font-size: 12px; color: #a8a8a8; margin-top: 6px; line-height: 1.4; }
+  .rule {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 12px; border-radius: 12px; background: #121212; border: 1px solid #222;
+    font-size: 12px;
+  }
+  .rule span { color: #4ade80; font-weight: 700; font-size: 11px; }
+
+  .m-status { display: none; }
+
+  @media (max-width: 500px) {
+    .shell { grid-template-columns: 1fr; }
+    .inbox, .panel { display: none; }
+    .m-status {
+      display: flex; justify-content: space-between; align-items: center;
+      height: 44px; padding: 12px 18px 0; font-size: 14px; font-weight: 600;
+    }
+    .m-status .right { display: flex; gap: 6px; font-size: 12px; opacity: .9; }
+    .bar { height: 54px; padding: 0 12px; }
+    .live { display: none; }
+    .messages { padding: 16px 12px; }
+    .bubble, .card-msg { max-width: 86%; }
+    .quick { max-width: 86%; }
+  }
+</style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="inbox">
+      <div class="head"><h1>metek.digital</h1><span class="badge">Auto DM</span></div>
+      <div class="thread active">
+        <div class="av"><i style="background:linear-gradient(135deg,#f472b6,#a78bfa)"></i></div>
+        <div>
+          <b>ayse.studio</b>
+          <p>Fiyat sorusu · sıcak lead</p>
+          <span class="tag-mini tag-hot">Satış</span>
+        </div>
+      </div>
+      <div class="thread">
+        <div class="av"><i style="background:linear-gradient(135deg,#22d3ee,#6366f1)"></i></div>
+        <div>
+          <b>nord.brand</b>
+          <p>Stok sorusu · yanıtlandı</p>
+          <span class="tag-mini tag-ok">Destek</span>
+        </div>
+      </div>
+      <div class="thread">
+        <div class="av"><i style="background:linear-gradient(135deg,#fbbf24,#f97316)"></i></div>
+        <div>
+          <b>cafe.line</b>
+          <p>İşbirliği talebi</p>
+          <span class="tag-mini" style="background:#8134af33;color:#c4b5fd">Collab</span>
+        </div>
+      </div>
+      <div class="thread">
+        <div class="av"><i style="background:linear-gradient(135deg,#34d399,#0ea5e9)"></i></div>
+        <div>
+          <b>block.pump</b>
+          <p>Randevu onaylandı</p>
+          <span class="tag-mini tag-ok">Randevu</span>
+        </div>
+      </div>
+    </aside>
+
+    <section class="stage">
+      <div class="m-status">
+        <span>09:44</span>
+        <span class="right"><span>■■■</span><span>5G</span><span>🔋</span></span>
+      </div>
+      <div class="bar">
+        <div class="av"><i style="background:linear-gradient(135deg,#f472b6,#a78bfa)"></i></div>
+        <div>
+          <b>ayse.studio</b>
+          <span>Instagram · otomatik yanıt aktif</span>
+        </div>
+        <span class="live">● Canlı</span>
+      </div>
+      <div class="messages">
+        <div class="bubble in">Merhaba, web sitesi fiyatlarınızı paylaşır mısınız?</div>
+        <div class="bubble out">Tabii — kısaca ihtiyacını sorayım. Kaç sayfalık bir site düşünüyorsun?</div>
+        <div class="bubble in">5 sayfa, marka sitesi. Animasyon da olsun.</div>
+        <div class="card-msg">
+          <div class="thumb"><b>Premium Deneyim</b></div>
+          <div class="body">
+            <p>Özgün UI, motion, panel ve SEO. Keşif görüşmesiyle net kapsam.</p>
+            <em>Önerilen paket</em>
+          </div>
+        </div>
+        <div class="bubble out">Uygun bir slot seç — randevu CRM’e düşer:</div>
+        <div class="quick">
+          <span>Salı 11:00</span>
+          <span>Çarşamba 15:00</span>
+          <span>Perşembe 14:00</span>
+        </div>
+        <div class="bubble in">Perşembe 14:00 uygun.</div>
+        <div class="bubble out">Harika — randevu oluşturuldu. Özet DM olarak iletilecek.</div>
+      </div>
+      <div class="composer">
+        <input value="Mesaj…" readonly />
+        <button>Gönder</button>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <h3>Intent</h3>
+      <div class="intent">
+        <b>Satış · Hot</b>
+        <p>Fiyat + paket sorusu. Randevu slotu seçildi.</p>
+      </div>
+      <h3>Kurallar</h3>
+      <div class="rule"><b>FAQ otomatik</b><span>Açık</span></div>
+      <div class="rule"><b>Lead → CRM</b><span>Açık</span></div>
+      <div class="rule"><b>İnsan handoff</b><span>Eşik 80</span></div>
+      <div class="rule"><b>Gece modu</b><span>24/7</span></div>
+    </aside>
+  </div>
+</body>
+</html>

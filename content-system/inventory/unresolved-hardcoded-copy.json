@@ -1,0 +1,13 @@
+{
+  "generatedAt": "2026-09-01T12:25:19.773Z",
+  "known": [
+    {
+      "file": "components/Footer.tsx",
+      "reason": "Decorative brand ring"
+    },
+    {
+      "file": "components/Intro.tsx",
+      "reason": "Intro brand mark"
+    }
+  ]
+}

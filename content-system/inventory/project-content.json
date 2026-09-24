@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-09-01T12:25:19.771Z",
+  "count": 16,
+  "projectIds": [
+    "elif-seren",
+    "masal-koltuk",
+    "wcc",
+    "aydnnacar",
+    "wuffbutik",
+    "altitude-residence",
+    "casa-aurelia",
+    "seraphine-atelier",
+    "havva-baklava",
+    "sahra-butik",
+    "vela-skin-atelier",
+    "aiahi",
+    "whatsapp-bot",
+    "instagram-bot",
+    "crm",
+    "css-system"
+  ],
+  "sources": [
+    "data/projects.ts",
+    "data/project-card-copy.ts",
+    "data/project-punch.ts",
+    "data/project-details.ts",
+    "data/project-galleries.ts"
+  ]
+}

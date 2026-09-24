@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WhatsApp Chatbot — METEK</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #061016;
+    color: #e9edef;
+    min-height: 100vh;
+  }
+  .app {
+    display: grid;
+    grid-template-columns: 300px 1fr 280px;
+    min-height: 100vh;
+  }
+  .list {
+    background: #0b141a;
+    border-right: 1px solid #1a2730;
+    display: flex;
+    flex-direction: column;
+  }
+  .list-top {
+    height: 64px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(180deg, #1a242b, #111b21);
+    border-bottom: 1px solid #1a2730;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .brand-mark {
+    width: 38px; height: 38px; border-radius: 12px;
+    background: linear-gradient(145deg, #25d366, #0d9f56);
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 15px; color: #04140c;
+    box-shadow: 0 0 0 1px rgba(37,211,102,.35), 0 8px 20px -8px rgba(37,211,102,.55);
+  }
+  .brand b { font-size: 13px; font-weight: 700; letter-spacing: -.01em; display: block; }
+  .brand span { font-size: 10px; color: #8696a0; letter-spacing: .04em; text-transform: uppercase; }
+  .icons { display: flex; gap: 14px; color: #aebac1; font-size: 15px; opacity: .85; }
+  .search { padding: 10px 12px 12px; }
+  .search input {
+    width: 100%; border: 0; outline: none;
+    background: #202c33; color: #d1d7db;
+    border-radius: 10px; padding: 10px 14px; font-size: 13px;
+  }
+  .filter {
+    display: flex; gap: 6px; padding: 0 12px 10px;
+  }
+  .filter span {
+    font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 999px;
+    background: #1a242b; color: #8696a0;
+  }
+  .filter span.on { background: #25d36622; color: #25d366; }
+  .chat-row {
+    display: flex; gap: 12px; padding: 13px 14px;
+    border-bottom: 1px solid #152028;
+  }
+  .chat-row.active {
+    background: linear-gradient(90deg, #183028, #152028);
+    border-left: 2px solid #25d366;
+  }
+  .av {
+    width: 46px; height: 46px; border-radius: 50%; flex-shrink: 0;
+    display: grid; place-items: center;
+    font-weight: 700; font-size: 15px; color: #04140c;
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
+  }
+  .chat-row b { font-size: 14px; font-weight: 600; display: block; }
+  .chat-row p {
+    font-size: 12.5px; color: #8696a0; margin-top: 3px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px;
+  }
+  .chat-row .meta-r { margin-left: auto; text-align: right; }
+  .chat-row .t { font-size: 11px; color: #25d366; display: block; }
+  .unread {
+    display: inline-grid; place-items: center;
+    min-width: 18px; height: 18px; margin-top: 6px; padding: 0 5px;
+    border-radius: 999px; background: #25d366; color: #04140c;
+    font-size: 10px; font-weight: 800;
+  }
+  .stage { display: flex; flex-direction: column; min-height: 100vh; background: #0b141a; }
+  .stage-top {
+    height: 64px; background: linear-gradient(180deg, #1a242b, #111b21);
+    display: flex; align-items: center; gap: 12px; padding: 0 18px;
+    border-bottom: 1px solid #1a2730;
+  }
+  .stage-top .info b { font-size: 15px; font-weight: 600; }
+  .stage-top .info span { display: block; font-size: 12px; color: #8696a0; margin-top: 2px; }
+  .pill {
+    margin-left: auto;
+    background: linear-gradient(135deg, #25d36633, #25d36611);
+    color: #25d366; border: 1px solid #25d36655;
+    font-size: 11px; font-weight: 800; padding: 7px 12px; border-radius: 999px;
+    letter-spacing: .04em; text-transform: uppercase;
+    box-shadow: 0 0 20px -6px rgba(37,211,102,.55);
+  }
+  .thread {
+    flex: 1;
+    padding: 20px 48px 18px;
+    background:
+      radial-gradient(ellipse 80% 50% at 70% 10%, rgba(37,211,102,.06), transparent 55%),
+      linear-gradient(rgba(11,20,26,.94), rgba(11,20,26,.94)),
+      repeating-linear-gradient(45deg, #0e1a21 0 12px, #0c171d 12px 24px);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .day {
+    align-self: center;
+    background: #1a2730; color: #aebac1;
+    font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 8px;
+    margin: 2px 0 12px; letter-spacing: .02em;
+  }
+  .msg {
+    max-width: 440px; padding: 9px 11px 5px 12px; border-radius: 10px;
+    font-size: 14px; line-height: 1.45; position: relative;
+    box-shadow: 0 1px 1px rgba(0,0,0,.18);
+  }
+  .bot { background: #1f2c34; align-self: flex-start; border-top-left-radius: 2px; }
+  .user {
+    background: linear-gradient(160deg, #027a63, #005c4b);
+    align-self: flex-end; border-top-right-radius: 2px;
+  }
+  .msg strong { color: #25d366; font-weight: 700; }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; margin: 4px 0 2px; max-width: 440px; }
+  .chips span {
+    border: 1px solid #25d36655; color: #25d366; background: #25d36612;
+    border-radius: 999px; padding: 7px 12px; font-size: 12px; font-weight: 600;
+  }
+  .meta {
+    text-align: right; font-size: 10.5px; color: #8696a0;
+    margin-top: 4px; padding-left: 20px;
+  }
+  .composer {
+    min-height: 64px; background: #111b21;
+    display: flex; align-items: center; gap: 10px; padding: 0 16px;
+    border-top: 1px solid #1a2730;
+  }
+  .composer .plus { color: #8696a0; font-size: 22px; width: 28px; text-align: center; }
+  .composer input {
+    flex: 1; background: #202c33; border: 0; border-radius: 10px;
+    padding: 12px 14px; color: #e9edef; font-size: 14px; outline: none;
+  }
+  .send {
+    width: 44px; height: 44px; border-radius: 50%; border: 0;
+    background: linear-gradient(145deg, #25d366, #0d9f56);
+    color: #04140c; font-size: 16px; font-weight: 800;
+    box-shadow: 0 8px 18px -8px rgba(37,211,102,.7);
+  }
+
+  /* Insight panel */
+  .panel {
+    background: #0b141a;
+    border-left: 1px solid #1a2730;
+    padding: 18px 16px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .panel h3 {
+    font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+    color: #8696a0; font-weight: 800;
+  }
+  .score {
+    background: linear-gradient(160deg, #152820, #0f1a14);
+    border: 1px solid #25d36633; border-radius: 16px; padding: 14px;
+  }
+  .score .big { font-size: 32px; font-weight: 800; letter-spacing: -.04em; color: #25d366; }
+  .score p { font-size: 12px; color: #aebac1; margin-top: 4px; line-height: 1.4; }
+  .stat {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 12px; border-radius: 12px; background: #111b21; border: 1px solid #1a2730;
+  }
+  .stat b { font-size: 13px; }
+  .stat span { font-size: 11px; color: #25d366; font-weight: 700; }
+  .flow {
+    border-radius: 14px; background: #111b21; border: 1px solid #1a2730; padding: 12px;
+  }
+  .flow li {
+    list-style: none; font-size: 12px; color: #c5ced3; padding: 7px 0;
+    border-bottom: 1px solid #1a2730; display: flex; gap: 8px; align-items: center;
+  }
+  .flow li:last-child { border-bottom: 0; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: #25d366; flex-shrink: 0; }
+  .dot.off { background: #334155; }
+
+  .m-status, .m-only { display: none; }
+
+  @media (max-width: 500px) {
+    .app { grid-template-columns: 1fr; }
+    .list, .panel { display: none; }
+    .m-status {
+      display: flex; justify-content: space-between; align-items: center;
+      height: 44px; padding: 12px 18px 0; background: #1f2c34;
+      font-size: 14px; font-weight: 600;
+    }
+    .m-status .right { display: flex; gap: 6px; font-size: 12px; opacity: .9; }
+    .stage-top { height: 56px; background: #1f2c34; padding: 0 10px 0 8px; }
+    .pill { display: none; }
+    .m-only { display: inline; color: #8696a0; font-size: 18px; margin-left: auto; letter-spacing: 2px; }
+    .thread { padding: 14px 12px 18px; }
+    .msg { max-width: 86%; font-size: 14.5px; }
+    .chips { max-width: 86%; }
+    .composer { min-height: 58px; background: #1f2c34; padding: 0 8px 8px; }
+    .composer input { border-radius: 22px; padding: 10px 16px; }
+  }
+</style>
+</head>
+<body>
+  <div class="app">
+    <aside class="list">
+      <div class="list-top">
+        <div class="brand">
+          <div class="brand-mark">M</div>
+          <div><b>METEK Inbox</b><span>WhatsApp Bot</span></div>
+        </div>
+        <div class="icons"><span>◎</span><span>✎</span></div>
+      </div>
+      <div class="search"><input value="Ara veya yeni sohbet" readonly /></div>
+      <div class="filter">
+        <span class="on">Aktif</span><span>Lead</span><span>Randevu</span>
+      </div>
+      <div class="chat-row active">
+        <div class="av">A</div>
+        <div style="flex:1;min-width:0">
+          <b>Ayşe · Hot lead</b>
+          <p>Premium paket · keşif istiyor</p>
+        </div>
+        <div class="meta-r"><span class="t">09:43</span><span class="unread">2</span></div>
+      </div>
+      <div class="chat-row">
+        <div class="av" style="background:linear-gradient(135deg,#60a5fa,#2563eb);color:#fff">N</div>
+        <div style="flex:1;min-width:0"><b>Nacar Mobilya</b><p>Katalog linki gönderildi</p></div>
+        <div class="meta-r"><span class="t" style="color:#8696a0">Dün</span></div>
+      </div>
+      <div class="chat-row">
+        <div class="av" style="background:linear-gradient(135deg,#fbbf24,#f59e0b)">W</div>
+        <div style="flex:1;min-width:0"><b>Wuuf Butik</b><p>Randevu: Perşembe 14:00</p></div>
+        <div class="meta-r"><span class="t" style="color:#8696a0">Pzt</span></div>
+      </div>
+      <div class="chat-row">
+        <div class="av" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);color:#fff">C</div>
+        <div style="flex:1;min-width:0"><b>Cabinet Co.</b><p>Teklif PDF’i indirildi</p></div>
+        <div class="meta-r"><span class="t" style="color:#8696a0">Pzt</span></div>
+      </div>
+    </aside>
+
+    <section class="stage">
+      <div class="m-status">
+        <span>09:43</span>
+        <span class="right"><span>■■■</span><span>5G</span><span>🔋</span></span>
+      </div>
+      <div class="stage-top">
+        <div class="av" style="width:40px;height:40px;font-size:14px">A</div>
+        <div class="info">
+          <b>Ayşe · Hot lead</b>
+          <span>çevrimiçi · bot yönlendiriyor</span>
+        </div>
+        <span class="pill">● Bot aktif</span>
+        <span class="m-only">⋮</span>
+      </div>
+      <div class="thread">
+        <div class="day">Bugün · otomatik akış</div>
+        <div class="msg bot">Merhaba Ayşe — <strong>METEK Digital</strong>’e hoş geldiniz. Web, yazılım veya otomasyon için mi bakıyorsunuz?<div class="meta">09:41</div></div>
+        <div class="msg user">Web sitesi + otomasyon paketi hakkında bilgi almak istiyorum.<div class="meta">09:42 ✓✓</div></div>
+        <div class="msg bot">Harika. Size üç net paket hazırladım:<br><br>① Kurumsal Web<br>② Premium Deneyim<br>③ Yazılım & Otomasyon<div class="meta">09:42</div></div>
+        <div class="chips">
+          <span>① Kurumsal</span><span>② Premium</span><span>③ Otomasyon</span>
+        </div>
+        <div class="msg user">2 numaralı paketi inceleyelim.<div class="meta">09:43 ✓✓</div></div>
+        <div class="msg bot">Premium: özgün UI, motion, panel ve SEO. Keşif görüşmesi için bir saat seçebilirsiniz — lead CRM’e düştü.<div class="meta">09:43</div></div>
+      </div>
+      <div class="composer">
+        <span class="plus">＋</span>
+        <input value="Mesaj yazın veya hızlı yanıt seçin" readonly />
+        <button class="send">➤</button>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <h3>Lead skoru</h3>
+      <div class="score">
+        <div class="big">86</div>
+        <p>Yüksek niyet · paket seçildi · randevu bekleniyor</p>
+      </div>
+      <div class="stat"><b>İlk yanıt</b><span>1.2 sn</span></div>
+      <div class="stat"><b>Bu gece</b><span>14 mesaj</span></div>
+      <div class="stat"><b>CRM sync</b><span>Aktif</span></div>
+      <h3>Akış</h3>
+      <ul class="flow">
+        <li><span class="dot"></span> Karşılama</li>
+        <li><span class="dot"></span> Paket seçimi</li>
+        <li><span class="dot"></span> Lead capture</li>
+        <li><span class="dot off"></span> Randevu slotu</li>
+        <li><span class="dot off"></span> İnsan handoff</li>
+      </ul>
+    </aside>
+  </div>
+</body>
+</html>

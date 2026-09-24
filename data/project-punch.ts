@@ -1,0 +1,83 @@
+/**
+ * Selected Work punch satırları: kısa, tek satırlık anlatım.
+ * Kart özetleri (project-card-copy) uzun; grid'de hızlı okunan güçlü cümle gerekir.
+ */
+const projectPunch: Record<string, Record<string, string>> = {
+  tr: {
+    "elif-seren": "Nişantaşı'nda klinik psikolog için güven veren dijital alan.",
+    "masal-koltuk": "Site yayına girdi, müşteri aradı. Google ve yapay zekada en başta.",
+    wcc: "Ürün galerisinden teklif talebine uzanan, mobil öncelikli üretici sitesi.",
+    aydnnacar: "Koleksiyonu oda, model ve ölçü üzerinden gezdiren mobilya kataloğu.",
+    wuffbutik: "Koleksiyon, mağaza bilgisi ve WhatsApp görüşmesi tek vitrinde.",
+    "altitude-residence": "Rezidans seçeneklerinden görüntüleme talebine kısa bir satış yolu.",
+    "casa-aurelia": "Roma'daki odaları iki dilde sunan rezervasyon vitrini.",
+    "seraphine-atelier": "Kadın ve erkek lookbook'larından özel prova talebine.",
+    "havva-baklava": "Atölye hikâyesi, günlük fiyatlar ve WhatsApp siparişi.",
+    "sahra-butik": "Ürünleri koleksiyona ayıran, stok sorusunu WhatsApp'a taşıyan katalog.",
+    "vela-skin-atelier": "Bakım protokollerinden SoHo'daki danışmanlık randevusuna.",
+    aiahi: "WhatsApp görüşmesini takvim ve müşteri kaydıyla birleştiren ürün.",
+    "whatsapp-bot": "Hizmet bilgisini verir, uygun saati bulur, randevuyu kaydeder.",
+    "instagram-bot": "Instagram mesajlarından ortak takvime bağlanan randevu asistanı.",
+    crm: "Kanal geçmişi, randevu ve ekip notu aynı müşteri kaydında.",
+    "css-system": "Site ve paneli ortak token'larla yöneten CSS tasarım sistemi.",
+  },
+  en: {
+    "elif-seren": "A reassuring digital space for a clinical psychologist in Nişantaşı.",
+    "masal-koltuk": "The site went live. Customers called. First on Google and AI.",
+    wcc: "A mobile-first manufacturer site from product gallery to quote request.",
+    aydnnacar: "A furniture catalog organized by room, model, and dimensions.",
+    wuffbutik: "Collections, store details, and WhatsApp contact in one storefront.",
+    "altitude-residence": "A direct sales route from residence options to viewing request.",
+    "casa-aurelia": "A bilingual booking showcase for rooms in Rome.",
+    "seraphine-atelier": "Women's and men's lookbooks leading to a private fitting.",
+    "havva-baklava": "Workshop story, current prices, and WhatsApp ordering.",
+    "sahra-butik": "A collection catalog with size and stock questions on WhatsApp.",
+    "vela-skin-atelier": "From treatment protocols to a SoHo consultation.",
+    aiahi: "WhatsApp conversations connected to bookings and customer records.",
+    "whatsapp-bot": "Answers service questions, finds an opening, and records the booking.",
+    "instagram-bot": "An Instagram booking assistant connected to the shared calendar.",
+    crm: "Channel history, appointments, and staff notes on one customer record.",
+    "css-system": "A token-based CSS system shared by the site and admin panel.",
+  },
+  es: {
+    "elif-seren": "Un espacio digital tranquilizador para un psicólogo clínico en Nişantaşı.",
+    "masal-koltuk": "Salió el sitio. Llamaron clientes. Primero en Google y en la IA.",
+    wcc: "Líneas de gabinetes y proyectos terminados antes de solicitar una cotización.",
+    aydnnacar: "Muebles organizados por ambiente, modelo y medidas.",
+    wuffbutik: "Colecciones y datos de tienda con consulta por WhatsApp.",
+    "altitude-residence": "Tipos de residencia y planos antes de solicitar una visita.",
+    "casa-aurelia": "Habitaciones en Roma con reserva en inglés e italiano.",
+    "seraphine-atelier": "Lookbooks de mujer y hombre con cita privada.",
+    "havva-baklava": "Historia de taller y precios vigentes junto al pedido por WhatsApp.",
+    "sahra-butik": "Colecciones con preguntas de talla y existencia por WhatsApp.",
+    "vela-skin-atelier": "Protocolos y criterios de consulta para el estudio en SoHo.",
+    aiahi: "Las citas de WhatsApp actualizan calendario y ficha de cliente.",
+    "whatsapp-bot": "Respuestas aprobadas y citas dentro de WhatsApp.",
+    "instagram-bot": "Consultas de Instagram conectadas al calendario compartido.",
+    crm: "Citas de varios canales reunidas en una ficha de cliente.",
+    "css-system": "Tokens compartidos por el sitio público y el panel interno.",
+  },
+  de: {
+    "elif-seren": "Ein beruhigender digitaler Raum für einen klinischen Psychologen in Nişantaşı.",
+    "masal-koltuk": "Website live, Kunden am Telefon. Zuerst bei Google und der KI.",
+    wcc: "Schranklinien und Referenzprojekte vor der Angebotsanfrage.",
+    aydnnacar: "Möbel nach Raum, Modell und Maßen geordnet.",
+    wuffbutik: "Kollektionen und Ladenangaben mit WhatsApp-Anfrage.",
+    "altitude-residence": "Wohnungstypen und Grundrisse vor der Besichtigungsanfrage.",
+    "casa-aurelia": "Zimmer in Rom mit Reservierung auf Englisch und Italienisch.",
+    "seraphine-atelier": "Damen- und Herren-Lookbooks mit privater Anprobe.",
+    "havva-baklava": "Werkstattgeschichte und aktuelle Preise neben der WhatsApp-Bestellung.",
+    "sahra-butik": "Kollektionen mit Größen- und Bestandsfragen über WhatsApp.",
+    "vela-skin-atelier": "Protokolle und Beratungskriterien für das SoHo-Studio.",
+    aiahi: "WhatsApp-Termine aktualisieren Kalender und Kundeneintrag.",
+    "whatsapp-bot": "Freigegebene Antworten und Terminwahl in WhatsApp.",
+    "instagram-bot": "Instagram-Anfragen im gemeinsamen Kalender.",
+    crm: "Termine aus mehreren Kanälen in einem Kundeneintrag.",
+    "css-system": "Gemeinsame Tokens für öffentliche Website und internes Panel.",
+  },
+};
+
+export function getProjectPunch(locale: string, id: string): string | undefined {
+  const pack = projectPunch[locale] ?? projectPunch.en;
+  return pack[id] ?? projectPunch.en?.[id] ?? projectPunch.tr?.[id];
+}
